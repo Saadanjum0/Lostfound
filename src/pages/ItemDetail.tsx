@@ -178,8 +178,8 @@ const ItemDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
-              <CardContent className="p-8">
+            <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+              <CardContent className="p-8 bg-white">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
                   <div className="flex-1">
                     <h1 className="text-3xl font-bold text-gray-900 mb-4 item-title">
@@ -227,14 +227,14 @@ const ItemDetail = () => {
             </Card>
 
             {item.images && item.images.length > 0 && (
-              <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+              <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
                 <CardHeader className="bg-gray-50 border-b border-gray-100">
                   <CardTitle className="flex items-center gap-2 text-gray-900">
                     <ImageIcon className="h-5 w-5 text-gray-600" />
                     Images ({item.images.length})
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
+                <CardContent className="p-6 bg-white">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {item.images.map((imageUrl, index) => (
                       <div key={index} className="image-container aspect-square bg-gray-50 rounded-lg overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
@@ -251,14 +251,14 @@ const ItemDetail = () => {
               </Card>
             )}
 
-            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+            <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
               <CardHeader className="bg-gray-50 border-b border-gray-100">
                 <CardTitle className="flex items-center gap-2 text-gray-900">
                   <Tag className="h-5 w-5 text-gray-600" />
                   Item Details
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-6">
                     <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
@@ -267,7 +267,7 @@ const ItemDetail = () => {
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-600 meta-text">Category</p>
-                        <p className="font-semibold text-gray-900">{item.category?.name || 'Not specified'}</p>
+                        <p className="font-semibold text-gray-900">{typeof item.category === 'string' ? item.category : (item.category as any)?.name || 'Not specified'}</p>
                       </div>
                     </div>
 
@@ -277,7 +277,7 @@ const ItemDetail = () => {
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-600 meta-text">Location</p>
-                        <p className="font-semibold text-gray-900">{item.location?.name || 'Not specified'}</p>
+                        <p className="font-semibold text-gray-900">{typeof item.location === 'string' ? item.location : (item.location as any)?.name || 'Not specified'}</p>
                         {item.specific_location && (
                           <p className="text-sm text-gray-600 meta-text">{item.specific_location}</p>
                         )}
@@ -348,22 +348,22 @@ const ItemDetail = () => {
           </div>
 
           <div className="space-y-6 sidebar">
-            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden" id="contact">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+            <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden" id="contact">
+              <CardHeader className="bg-blue-50 border-b border-blue-100">
                 <CardTitle className="flex items-center gap-2 text-blue-900">
                   <MessageCircle className="h-5 w-5 text-blue-600" />
                   Contact Owner
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6 p-6">
+              <CardContent className="space-y-6 p-6 bg-white">
                 <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
                   <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
-                    {item.profiles?.full_name?.charAt(0) || 'U'}
+                    {(item as any).profiles?.full_name?.charAt(0) || 'U'}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-lg">{item.profiles?.full_name || 'Anonymous'}</p>
-                    {item.profiles?.student_id && (
-                      <p className="text-sm text-gray-600 meta-text">Student ID: {item.profiles.student_id}</p>
+                    <p className="font-semibold text-gray-900 text-lg">{(item as any).profiles?.full_name || 'Anonymous'}</p>
+                    {(item as any).profiles?.student_id && (
+                      <p className="text-sm text-gray-600 meta-text">Student ID: {(item as any).profiles.student_id}</p>
                     )}
                   </div>
                 </div>
@@ -398,14 +398,14 @@ const ItemDetail = () => {
                     </Button>
                   )}
 
-                  {/* Enhanced Messaging Button */}
+                  {/* Message Owner Button */}
                   {user && item.user_id !== user.id && (
                     <div className="space-y-3">
                     <ItemMessagingButton
                       itemId={item.id}
                       ownerId={item.user_id}
                       variant="default"
-                        className="contact-button w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-3"
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-4 text-base contact-button"
                         size="lg"
                       />
                       <div className="text-center p-3 bg-blue-50 rounded-lg">
@@ -426,13 +426,13 @@ const ItemDetail = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+            <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
               <CardHeader className="bg-gray-50 border-b border-gray-100">
                 <CardTitle className="text-gray-900 text-lg">
                   {item.item_type === 'lost' ? '🔍 Found This Item?' : '👋 Is This Yours?'}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-white">
                 <div className="space-y-4 text-sm text-gray-700">
                   {item.item_type === 'lost' ? (
                     <>
@@ -477,14 +477,14 @@ const ItemDetail = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 shadow-xl rounded-xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100 border-b border-blue-200">
+            <Card className="solid-card bg-blue-50 border border-blue-200 shadow-xl rounded-xl overflow-hidden">
+              <CardHeader className="bg-blue-100 border-b border-blue-200">
                 <CardTitle className="text-blue-800 flex items-center gap-2 text-lg">
                   <BadgeIcon className="h-5 w-5" />
                   Safety First
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-blue-50">
                 <div className="space-y-4 text-sm text-blue-800">
                   <div className="flex items-start gap-3">
                     <span className="text-blue-600 font-bold">•</span>

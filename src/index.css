@@ -8,6 +8,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Solid Card Override - Fixes transparency issues */
+.solid-card {
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+
+.solid-card * {
+  opacity: 1 !important;
+}
+
 /* Base styling with proper dark theme */
 html, body {
   background: radial-gradient(ellipse at center, #1a1a1a 0%, #141414 30%, #0f0f0f 70%, #0a0a0a 100%);

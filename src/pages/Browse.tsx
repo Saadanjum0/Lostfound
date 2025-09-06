@@ -86,8 +86,8 @@ const DesktopBrowse = () => {
         const searchableText = [
           item.title,
           item.description,
-          item.category?.name || '',
-          item.location?.name || '',
+          typeof item.category === 'string' ? item.category : (item.category as any)?.name || '',
+          typeof item.location === 'string' ? item.location : (item.location as any)?.name || '',
           item.specific_location || '',
           ...(item.tags || []),
           item.item_type
@@ -100,9 +100,9 @@ const DesktopBrowse = () => {
             item.title.toLowerCase().includes(term) ||
             item.description.toLowerCase().includes(term) ||
             // Check category name with fuzzy matching
-            (item.category?.name.toLowerCase().includes(term)) ||
+            ((typeof item.category === 'string' ? item.category : (item.category as any)?.name || '').toLowerCase().includes(term)) ||
             // Check location with fuzzy matching
-            (item.location?.name.toLowerCase().includes(term)) ||
+            ((typeof item.location === 'string' ? item.location : (item.location as any)?.name || '').toLowerCase().includes(term)) ||
             // Check tags if they exist
             (item.tags && item.tags.some(tag => tag.toLowerCase().includes(term)))
         });
@@ -112,7 +112,7 @@ const DesktopBrowse = () => {
 
       // Category filter
       if (selectedCategories.length > 0) {
-        const itemCategoryName = item.category?.name.toLowerCase() || 'other';
+        const itemCategoryName = (typeof item.category === 'string' ? item.category : (item.category as any)?.name || 'other').toLowerCase();
         const matchesCategory = selectedCategories.some(selectedCat => {
           switch (selectedCat) {
             case 'electronics':
@@ -152,7 +152,7 @@ const DesktopBrowse = () => {
       }
 
       // Location filter
-      if (selectedLocation && item.location?.id !== selectedLocation) return false;
+      if (selectedLocation && (typeof item.location === 'string' ? item.location : (item.location as any)?.id) !== selectedLocation) return false;
 
       return true;
     })
@@ -195,7 +195,7 @@ const DesktopBrowse = () => {
   };
 
   const ItemCard = ({ item, index }: { item: any, index: number }) => (
-    <Card className="bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1 relative z-10 overflow-hidden rounded-xl">
+    <Card className="solid-card bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1 relative z-10 overflow-hidden rounded-xl">
       <CardContent className="p-0 bg-white flex flex-col">
         {/* Enhanced Image Display */}
         <div className="relative overflow-hidden h-48 bg-gray-50 flex items-center justify-center">
@@ -207,7 +207,8 @@ const DesktopBrowse = () => {
               onError={(e) => {
                 // Fallback if image fails to load
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling.style.display = 'flex';
+                const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                if (nextElement) nextElement.style.display = 'flex';
               }}
             />
           ) : null}
@@ -246,7 +247,7 @@ const DesktopBrowse = () => {
               {item.title}
             </h3>
             <Badge variant="outline" className="text-xs border-gray-200 text-gray-600 ml-3 flex-shrink-0 bg-gray-50 px-2 py-1">
-              {item.category?.name || 'Other'}
+              {typeof item.category === 'string' ? item.category : (item.category as any)?.name || 'Other'}
             </Badge>
           </div>
           
@@ -257,7 +258,7 @@ const DesktopBrowse = () => {
           <div className="flex items-center justify-between text-sm text-gray-600 meta-text">
             <div className="flex items-center">
               <MapPin className="h-4 w-4 mr-2 text-gray-500" />
-              <span className="truncate font-medium">{item.location?.name || 'Unknown'}</span>
+              <span className="truncate font-medium">{typeof item.location === 'string' ? item.location : (item.location as any)?.name || 'Unknown'}</span>
             </div>
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2 text-gray-500" />
@@ -329,8 +330,8 @@ const DesktopBrowse = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Search and Filter Section */}
-        <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl mb-8">
-          <CardContent className="p-6 bg-white">
+        <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-2xl mb-8">
+          <CardContent className="bg-white p-6">
             {/* Search Bar */}
             <div className="relative mb-6">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -352,7 +353,7 @@ const DesktopBrowse = () => {
                 </TabsList>
               </Tabs>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as 'newest' | 'oldest' | 'title')}>
                 <SelectTrigger className="w-48">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -488,7 +489,7 @@ const DesktopBrowse = () => {
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <Card key={i} className="bg-white border border-gray-200 shadow-xl rounded-2xl animate-pulse">
+              <Card key={i} className="solid-card bg-white border border-gray-200 shadow-xl rounded-2xl animate-pulse">
                 <CardContent className="p-6 bg-white">
                   <div className="h-48 bg-gray-200 rounded mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded mb-2"></div>
@@ -510,7 +511,7 @@ const DesktopBrowse = () => {
 
         {/* No Results */}
         {!isLoading && filteredItems.length === 0 && (
-          <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl">
+          <Card className="solid-card bg-white border border-gray-200 shadow-xl rounded-2xl">
             <CardContent className="p-12 text-center bg-white">
               <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No Items Found</h3>
@@ -531,7 +532,7 @@ const DesktopBrowse = () => {
 
         {/* Error State */}
         {error && (
-          <Card className="bg-red-50 border border-red-200 shadow-xl rounded-2xl">
+          <Card className="solid-card bg-red-50 border border-red-200 shadow-xl rounded-2xl">
             <CardContent className="p-8 text-center bg-red-50">
               <div className="text-red-600 mb-4">Unable to load items. Please try again.</div>
               <Button onClick={() => window.location.reload()}>
