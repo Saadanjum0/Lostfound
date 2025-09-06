@@ -66,7 +66,12 @@ const ItemDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <div className="min-h-screen bg-gray-50">
+        {/* Disable floating background elements */}
+        <style>{`
+          body::before { display: none !important; }
+          .floating-particles { display: none !important; }
+        `}</style>
         <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-center py-12">
@@ -83,7 +88,12 @@ const ItemDetail = () => {
 
   if (error || !item) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <div className="min-h-screen bg-gray-50">
+        {/* Disable floating background elements */}
+        <style>{`
+          body::before { display: none !important; }
+          .floating-particles { display: none !important; }
+        `}</style>
         <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-center py-12">
@@ -121,7 +131,12 @@ const ItemDetail = () => {
 
   if (item.status !== 'approved' && (!user || item.user_id !== user.id)) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <div className="min-h-screen bg-gray-50">
+        {/* Disable floating background elements */}
+        <style>{`
+          body::before { display: none !important; }
+          .floating-particles { display: none !important; }
+        `}</style>
         <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-center py-12">
@@ -163,10 +178,20 @@ const ItemDetail = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50 relative">
+      {/* Disable floating background elements on this page */}
+      <style>{`
+        body::before {
+          display: none !important;
+        }
+        .floating-particles {
+          display: none !important;
+        }
+      `}</style>
+      
       <Header />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <div className="mb-6">
           <Link to="/items/browse">
             <Button variant="outline" className="elegant-button">
@@ -390,10 +415,10 @@ const ItemDetail = () => {
                     
                     {user && item.user_id !== user.id ? (
                       <div className="space-y-3">
-                        <ItemMessagingButton
-                          itemId={item.id}
-                          ownerId={item.user_id}
-                          variant="default"
+                    <ItemMessagingButton
+                      itemId={item.id}
+                      ownerId={item.user_id}
+                      variant="default"
                           className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-4 text-base rounded-xl"
                           size="lg"
                         />
@@ -420,8 +445,8 @@ const ItemDetail = () => {
                     ) : (
                       <div className="text-center p-4 bg-gray-50 rounded-lg">
                         <p className="text-sm text-gray-600 font-medium">This is your item</p>
-                      </div>
-                    )}
+                    </div>
+                  )}
                   </div>
 
                 </div>

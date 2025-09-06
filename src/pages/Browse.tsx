@@ -18,8 +18,10 @@ import Footer from '@/components/layout/Footer';
 import SplitText from '@/components/ui/SplitText';
 import ResponsiveWrapper from '@/components/ResponsiveWrapper';
 import MobileBrowse from '@/components/mobile/pages/MobileBrowse';
+import { useAuth } from '@/contexts/AuthContext';
 
 const DesktopBrowse = () => {
+  const { user, loading: authLoading } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -49,6 +51,13 @@ const DesktopBrowse = () => {
     setSearchParams(newParams);
   };
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      window.location.href = '/auth/login?returnTo=' + encodeURIComponent(window.location.pathname + window.location.search);
+    }
+  }, [user, authLoading]);
+
   // Fetch data
   const { data: categories = [] } = useCategories();
   const { data: locations = [] } = useLocations();
@@ -57,6 +66,23 @@ const DesktopBrowse = () => {
     itemType: itemType === 'all' ? undefined : itemType,
     limit: 100
   });
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
 
   // Predefined category filters with icons
   const categoryFilters = [
