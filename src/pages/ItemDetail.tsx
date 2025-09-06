@@ -368,22 +368,6 @@ const ItemDetail = () => {
                   </div>
                 </div>
 
-                {!user && (
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-4">
-                    <div className="text-center">
-                      <MessageCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                      <p className="text-sm text-blue-800 font-medium mb-3">
-                        Sign in to contact the owner securely
-                    </p>
-                    <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
-                        <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg">
-                          <User className="w-4 h-4 mr-2" />
-                          Sign In to Message
-                      </Button>
-                    </Link>
-                    </div>
-                  </div>
-                )}
 
                 <div className="space-y-4">
                   {item.contact_phone && (
@@ -398,30 +382,48 @@ const ItemDetail = () => {
                     </Button>
                   )}
 
-                  {/* Message Owner Button */}
-                  {user && item.user_id !== user.id && (
-                    <div className="space-y-3">
-                    <ItemMessagingButton
-                      itemId={item.id}
-                      ownerId={item.user_id}
-                      variant="default"
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-4 text-base contact-button"
-                        size="lg"
-                      />
-                      <div className="text-center p-3 bg-blue-50 rounded-lg">
-                        <p className="text-sm text-blue-700 font-medium">
-                          💬 Send a secure message to the owner
-                        </p>
+                  {/* Message Owner Button - Always show prominently */}
+                  <div className="space-y-4 border-t border-gray-100 pt-4">
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Contact Owner</h3>
+                    </div>
+                    
+                    {user && item.user_id !== user.id ? (
+                      <div className="space-y-3">
+                        <ItemMessagingButton
+                          itemId={item.id}
+                          ownerId={item.user_id}
+                          variant="default"
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-4 text-base rounded-xl"
+                          size="lg"
+                        />
+                        <div className="text-center p-3 bg-blue-50 rounded-lg">
+                          <p className="text-sm text-blue-700 font-medium">
+                            💬 Send a secure message to the owner
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ) : !user ? (
+                      <div className="space-y-3">
+                        <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
+                          <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-4 text-base rounded-xl">
+                            <MessageCircle className="h-5 w-5 mr-2" />
+                            Sign In to Message Owner
+                          </Button>
+                        </Link>
+                        <div className="text-center p-3 bg-blue-50 rounded-lg">
+                          <p className="text-sm text-blue-700 font-medium">
+                            💬 Sign in to send secure messages
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-gray-600 font-medium">This is your item</p>
+                      </div>
+                    )}
+                  </div>
 
-                  {!item.contact_phone && (!user || item.user_id === user.id) && (
-                    <div className="text-center py-6 bg-gray-50 rounded-lg">
-                      <MessageCircle className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-                      <p className="text-sm text-gray-600 font-medium">Use the messaging system to contact</p>
-                    </div>
-                  )}
                 </div>
               </CardContent>
             </Card>
