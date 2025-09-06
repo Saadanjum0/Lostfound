@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import Index from "./pages/Index";
 import Browse from "./pages/Browse";
 import ItemDetail from "./pages/ItemDetail";
@@ -47,6 +48,14 @@ const App = () => (
     <AuthProvider>
       <TooltipProvider>
         <Global3DBackground maxHeight="100vh" />
+        
+        {/* Configuration Error Banner */}
+        {!isSupabaseConfigured && (
+          <div className="fixed top-0 left-0 right-0 z-50 bg-red-600 text-white p-3 text-center text-sm font-medium">
+            ⚠️ Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.
+          </div>
+        )}
+        
         <Toaster />
         <Sonner />
         <BrowserRouter>
