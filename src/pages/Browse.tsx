@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { 
   Search, MapPin, Calendar, Eye, Package, Grid, List, SlidersHorizontal, X, 
   Smartphone, Laptop, Backpack, Key, Headphones, Watch, Camera, Wallet, Coffee, BookOpen, 
-  Glasses, Calculator, Umbrella, ChevronDown
+  Glasses, Calculator, Umbrella, ChevronDown, MessageCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -195,10 +195,10 @@ const DesktopBrowse = () => {
   };
 
   const ItemCard = ({ item, index }: { item: any, index: number }) => (
-    <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative z-10" style={{ backgroundColor: 'white', opacity: 1 }}>
-      <CardContent className="p-6" style={{ backgroundColor: 'white', opacity: 1 }}>
+    <Card className="bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative z-10 overflow-hidden">
+      <CardContent className="p-0 bg-white">
         {/* Enhanced Image Display */}
-        <div className="relative overflow-hidden rounded-2xl h-52 bg-gradient-to-br from-gray-100 to-gray-200 mb-4">
+        <div className="relative overflow-hidden h-52 bg-gradient-to-br from-gray-100 to-gray-200">
           {item.images && item.images.length > 0 ? (
             <img 
               src={item.images[0]} 
@@ -222,46 +222,67 @@ const DesktopBrowse = () => {
           </div>
           
           <Badge 
-            className={`absolute top-3 right-3 font-semibold backdrop-blur-sm ${
+            className={`absolute top-3 right-3 font-semibold backdrop-blur-sm border-0 shadow-lg ${
               item.item_type === 'lost' 
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white' 
-                : 'bg-gradient-to-r from-green-500 to-green-600 text-white'
+                ? 'bg-amber-500 hover:bg-amber-600 text-white' 
+                : 'bg-green-500 hover:bg-green-600 text-white'
             }`}
           >
             {item.item_type === 'lost' ? '🔍 Lost' : '👁️ Found'}
           </Badge>
+
+          {/* Reward badge if offered */}
+          {item.reward_offered && (
+            <Badge className="absolute top-3 left-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold backdrop-blur-sm border-0 shadow-lg">
+              💰 ${item.reward_offered}
+            </Badge>
+          )}
         </div>
         
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="font-bold group-hover:text-amber-600 transition-colors text-gray-800 text-xl line-clamp-2 flex-1">
-            {item.title}
-          </h3>
-          <Badge variant="outline" className="text-xs border-gray-300 text-gray-600 ml-2 flex-shrink-0">
-            {item.category?.name || 'Other'}
-          </Badge>
-        </div>
-        
-        <p className="text-gray-600 mb-4 line-clamp-2">
-          {item.description}
-        </p>
-        
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-          <div className="flex items-center">
-            <MapPin className="h-4 w-4 mr-2" />
-            <span className="truncate">{item.location?.name || 'Unknown'}</span>
+        <div className="p-6 bg-white">
+          <div className="flex justify-between items-start mb-3">
+            <h3 className="font-bold group-hover:text-amber-600 transition-colors text-gray-900 text-xl line-clamp-2 flex-1">
+              {item.title}
+            </h3>
+            <Badge variant="outline" className="text-xs border-gray-300 text-gray-600 ml-2 flex-shrink-0 bg-gray-50">
+              {item.category?.name || 'Other'}
+            </Badge>
           </div>
-          <div className="flex items-center">
-            <Calendar className="h-4 w-4 mr-2" />
-            <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
+          
+          <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+            {item.description}
+          </p>
+          
+          <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+            <div className="flex items-center">
+              <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+              <span className="truncate">{item.location?.name || 'Unknown'}</span>
+            </div>
+            <div className="flex items-center">
+              <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+              <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
+            </div>
+          </div>
+          
+          <div className="flex gap-2">
+            <Button asChild className="flex-1 bg-gray-900 hover:bg-gray-800 text-white border-0">
+              <Link to={`/items/${item.id}`}>
+                <Eye className="h-4 w-4 mr-2" />
+                View Details
+              </Link>
+            </Button>
+            <Button 
+              asChild 
+              variant="outline" 
+              className="bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 hover:border-blue-300"
+            >
+              <Link to={`/items/${item.id}#contact`}>
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Contact
+              </Link>
+            </Button>
           </div>
         </div>
-        
-        <Button asChild className="w-full elegant-button bg-gray-900 hover:bg-gray-800 text-white">
-          <Link to={`/items/${item.id}`}>
-            <Eye className="h-4 w-4 mr-2" />
-            View Details
-          </Link>
-        </Button>
       </CardContent>
     </Card>
   );

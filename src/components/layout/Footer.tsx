@@ -1,10 +1,12 @@
 
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone, Heart } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import SplitText from '@/components/ui/SplitText';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { user } = useAuth();
 
   return (
     <footer className="dark-gradient text-white relative overflow-hidden">
@@ -65,16 +67,27 @@ const Footer = () => {
           {/* Account Links */}
           <div>
             <h3 className="text-xl font-bold mb-8 text-white relative">
-              Account
+              {user ? 'Actions' : 'Account'}
               <span className="absolute bottom-0 left-0 w-12 h-1 bg-yellow-300 rounded-full"></span>
             </h3>
             <ul className="space-y-4">
-              {[
-                { name: 'Sign Up', href: '/auth/register' },
-                { name: 'Sign In', href: '/auth/login' },
-                { name: 'Report Lost Item', href: '/report/lost' },
-                { name: 'Report Found Item', href: '/report/found' }
-              ].map((link) => (
+              {user ? (
+                // Links for logged-in users
+                [
+                  { name: 'Report Lost Item', href: '/report/lost' },
+                  { name: 'Report Found Item', href: '/report/found' },
+                  { name: 'My Items', href: '/dashboard' },
+                  { name: 'Messages', href: '/messages' }
+                ]
+              ) : (
+                // Links for non-logged-in users
+                [
+                  { name: 'Sign Up', href: '/auth/register' },
+                  { name: 'Sign In', href: '/auth/login' },
+                  { name: 'Report Lost Item', href: '/report/lost' },
+                  { name: 'Report Found Item', href: '/report/found' }
+                ]
+              ).map((link) => (
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
@@ -114,10 +127,8 @@ const Footer = () => {
         {/* Bottom section with elegant styling */}
         <div className="border-t border-white/20 mt-16 pt-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-lg flex items-center">
-              © {currentYear} Campus Lost & Found. Made with{' '}
-              <Heart className="h-5 w-5 mx-2 text-yellow-300 animate-pulse" />
-              for students.
+            <p className="text-gray-300 text-lg">
+              © {currentYear} Campus Lost & Found. All rights reserved.
             </p>
             <div className="flex space-x-10 mt-6 md:mt-0">
               {[

@@ -366,10 +366,10 @@ const ItemDetail = () => {
           </div>
 
           <div className="space-y-6">
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
+            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl" id="contact">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                <CardTitle className="flex items-center gap-2 text-blue-900">
+                  <MessageCircle className="h-5 w-5 text-blue-600" />
                   Contact Owner
                 </CardTitle>
               </CardHeader>
@@ -387,16 +387,19 @@ const ItemDetail = () => {
                 </div>
 
                 {!user && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                    <p className="text-sm text-blue-700 mb-2">
-                      <AlertTriangle className="w-4 h-4 inline mr-1" />
-                      Please log in to contact the owner
-                    </p>
-                    <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
-                      <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                        Log In to Contact
-                      </Button>
-                    </Link>
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 mb-4">
+                    <div className="text-center">
+                      <MessageCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                      <p className="text-sm text-blue-800 font-medium mb-3">
+                        Sign in to contact the owner securely
+                      </p>
+                      <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
+                        <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg">
+                          <User className="w-4 h-4 mr-2" />
+                          Sign In to Message
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 )}
 
@@ -413,14 +416,20 @@ const ItemDetail = () => {
                     </Button>
                   )}
 
-                  {/* Messaging Button */}
+                  {/* Enhanced Messaging Button */}
                   {user && item.user_id !== user.id && (
-                    <ItemMessagingButton
-                      itemId={item.id}
-                      ownerId={item.user_id}
-                      variant="default"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                    />
+                    <div className="space-y-2">
+                      <ItemMessagingButton
+                        itemId={item.id}
+                        ownerId={item.user_id}
+                        variant="default"
+                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                        size="lg"
+                      />
+                      <p className="text-xs text-center text-gray-500">
+                        💬 Send a secure message to the owner
+                      </p>
+                    </div>
                   )}
 
                   {!item.contact_phone && (!user || item.user_id === user.id) && (
