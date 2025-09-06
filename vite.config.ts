@@ -6,15 +6,7 @@ import path from "path";
 export default defineConfig(({ mode }) => {
   const plugins = [react()];
   
-  // Only add lovable-tagger in development mode and when available
-  if (mode === 'development') {
-    try {
-      const { componentTagger } = require("lovable-tagger");
-      plugins.push(componentTagger());
-    } catch (error) {
-      console.warn("lovable-tagger not available in this environment");
-    }
-  }
+  // No additional dev-only plugins
 
   return {
     server: {
