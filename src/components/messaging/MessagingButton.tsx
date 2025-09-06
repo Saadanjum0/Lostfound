@@ -22,7 +22,7 @@ export function MessagingButton() {
     <Button
       variant="ghost"
       size="icon"
-      className="relative"
+      className="relative text-amber-600 hover:text-amber-700 hover:bg-amber-50"
       onClick={handleClick}
     >
       <MessageCircle className="h-5 w-5" />
