@@ -115,7 +115,7 @@ const ItemDetail = () => {
                 />
                 <p className="text-gray-600 mb-4">The item you're looking for doesn't exist or has been removed.</p>
                 <Link to="/items/browse">
-                  <Button className="elegant-button">
+                  <Button className="bg-gray-900 hover:bg-gray-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold px-6 py-3 rounded-xl">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Browse
                   </Button>
@@ -163,7 +163,7 @@ const ItemDetail = () => {
                   }
                 </p>
                 <Link to="/items/browse">
-                  <Button className="elegant-button">
+                  <Button className="bg-gray-900 hover:bg-gray-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold px-6 py-3 rounded-xl">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Browse
                   </Button>
@@ -194,7 +194,7 @@ const ItemDetail = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <div className="mb-6">
           <Link to="/items/browse">
-            <Button variant="outline" className="elegant-button">
+            <Button className="bg-gray-900 hover:bg-gray-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold px-6 py-3 rounded-xl">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Browse
             </Button>
