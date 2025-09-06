@@ -195,7 +195,7 @@ const DesktopBrowse = () => {
   };
 
   const ItemCard = ({ item, index }: { item: any, index: number }) => (
-    <Card className="bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg rounded-2xl hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative z-10 overflow-hidden">
+    <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative z-10 overflow-hidden">
       <CardContent className="p-0 bg-white">
         {/* Enhanced Image Display */}
         <div className="relative overflow-hidden h-52 bg-gradient-to-br from-gray-100 to-gray-200">
@@ -329,8 +329,8 @@ const DesktopBrowse = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Search and Filter Section */}
-        <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl mb-8">
-          <CardContent className="p-6">
+        <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl mb-8">
+          <CardContent className="p-6 bg-white">
             {/* Search Bar */}
             <div className="relative mb-6">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -488,8 +488,8 @@ const DesktopBrowse = () => {
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <Card key={i} className="bg-white border border-gray-200 shadow-lg rounded-2xl animate-pulse">
-                <CardContent className="p-6">
+              <Card key={i} className="bg-white border border-gray-200 shadow-xl rounded-2xl animate-pulse">
+                <CardContent className="p-6 bg-white">
                   <div className="h-48 bg-gray-200 rounded mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded mb-2"></div>
                   <div className="h-4 bg-gray-200 rounded w-2/3"></div>
@@ -510,8 +510,8 @@ const DesktopBrowse = () => {
 
         {/* No Results */}
         {!isLoading && filteredItems.length === 0 && (
-          <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
-            <CardContent className="p-12 text-center">
+          <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl">
+            <CardContent className="p-12 text-center bg-white">
               <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No Items Found</h3>
               <p className="text-gray-600 mb-6">
@@ -531,8 +531,8 @@ const DesktopBrowse = () => {
 
         {/* Error State */}
         {error && (
-          <Card className="bg-red-50 border border-red-200 shadow-lg rounded-2xl">
-            <CardContent className="p-8 text-center">
+          <Card className="bg-red-50 border border-red-200 shadow-xl rounded-2xl">
+            <CardContent className="p-8 text-center bg-red-50">
               <div className="text-red-600 mb-4">Unable to load items. Please try again.</div>
               <Button onClick={() => window.location.reload()}>
                 Retry

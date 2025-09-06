@@ -71,7 +71,7 @@ const Footer = () => {
               <span className="absolute bottom-0 left-0 w-12 h-1 bg-yellow-300 rounded-full"></span>
             </h3>
             <ul className="space-y-4">
-              {user ? (
+              {(user ? (
                 // Links for logged-in users
                 [
                   { name: 'Report Lost Item', href: '/report/lost' },
@@ -87,7 +87,7 @@ const Footer = () => {
                   { name: 'Report Lost Item', href: '/report/lost' },
                   { name: 'Report Found Item', href: '/report/found' }
                 ]
-              ).map((link) => (
+              )).map((link) => (
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
