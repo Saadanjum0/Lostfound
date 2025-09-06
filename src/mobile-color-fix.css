@@ -1,0 +1,38 @@
+/* Mobile Color Fix - Match web version exactly */
+
+/* Mobile responsive adjustments - same colors as web */
+@media (max-width: 768px) {
+  /* Ensure same background as web */
+  html, body, #root {
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #141414 30%, #0f0f0f 70%, #0a0a0a 100%);
+    background-color: #0a0a0a;
+    background-attachment: scroll; /* Better for mobile performance */
+    color: white;
+  }
+
+  /* Mobile-optimized spacing and proportions */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Adjust text sizes for mobile readability */
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  /* Button adjustments for mobile - keep same colors as web */
+  .elegant-button {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 146, 60, 0.2));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: white;
+    padding: 0.75rem 1.5rem; /* Better mobile touch targets */
+    min-height: 44px; /* iOS recommended touch target */
+  }
+  
+  /* Card adjustments for mobile */
+  .premium-card {
+    margin-bottom: 1rem;
+    border-radius: 1rem; /* Slightly less rounded for mobile */
+  }
+} 
