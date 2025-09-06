@@ -178,88 +178,70 @@ const ItemDetail = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
+            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
               <CardContent className="p-8">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
                   <div className="flex-1">
-                    <SplitText
-                      text={item.title}
-                      className="text-3xl font-bold text-gray-900 mb-3"
-                      delay={100}
-                      duration={0.7}
-                      ease="power2.out"
-                      splitType="words"
-                      from={{ opacity: 0, y: 30, scale: 0.95 }}
-                      to={{ opacity: 1, y: 0, scale: 1 }}
-                      threshold={0.3}
-                      rootMargin="-100px"
-                      textAlign="left"
-                    />
-                    <div className="flex flex-wrap gap-2">
-                      <Badge className={`${getTypeColor(item.item_type)} border font-medium px-3 py-1`}>
-                        {item.item_type === 'lost' ? '🔍 Lost Item' : '👁️ Found Item'}
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4 item-title">
+                      {item.title}
+                    </h1>
+                    <div className="flex flex-wrap gap-3">
+                      <Badge className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm border-0 shadow-sm ${
+                        item.item_type === 'lost' 
+                          ? 'bg-red-100 text-red-800 status-lost' 
+                          : 'bg-green-100 text-green-800 status-found'
+                      }`}>
+                        {item.item_type === 'lost' ? '🔍 Lost Item' : '✅ Found Item'}
                       </Badge>
-                      <Badge className={`${getStatusColor(item.status)} border font-medium px-3 py-1`}>
+                      <Badge className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm border-0 shadow-sm ${getStatusColor(item.status)}`}>
                         {item.status === 'approved' ? '✅ Available' : `📋 ${item.status}`}
                       </Badge>
                       {item.is_urgent && (
-                        <Badge className="bg-red-100 text-red-800 border-red-200 font-medium px-3 py-1">
+                        <Badge className="bg-red-100 text-red-800 font-medium px-4 py-2 rounded-full text-sm border-0 shadow-sm">
                           🚨 Urgent
                         </Badge>
                       )}
                       {item.reward_offered && (
-                        <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 font-medium px-3 py-1">
+                        <Badge className="bg-yellow-100 text-yellow-800 font-medium px-4 py-2 rounded-full text-sm border-0 shadow-sm">
                           💰 ${item.reward_offered} Reward
                         </Badge>
                       )}
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={handleShare}>
+                  <div className="flex gap-3">
+                    <Button variant="outline" size="sm" onClick={handleShare} className="share-button action-button">
                       <Share2 className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="share-button action-button">
                       <Heart className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
 
                 <div>
-                  <SplitText
-                    text="Description"
-                    className="text-lg font-semibold text-gray-900 mb-3"
-                    delay={70}
-                    duration={0.5}
-                    ease="power2.out"
-                    splitType="chars"
-                    from={{ opacity: 0, y: 20 }}
-                    to={{ opacity: 1, y: 0 }}
-                    threshold={0.4}
-                    rootMargin="-80px"
-                    textAlign="left"
-                  />
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{item.description}</p>
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Description</h2>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap item-description text-base">{item.description}</p>
                 </div>
               </CardContent>
             </Card>
 
             {item.images && item.images.length > 0 && (
-              <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <ImageIcon className="h-5 w-5" />
+              <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+                <CardHeader className="bg-gray-50 border-b border-gray-100">
+                  <CardTitle className="flex items-center gap-2 text-gray-900">
+                    <ImageIcon className="h-5 w-5 text-gray-600" />
                     Images ({item.images.length})
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {item.images.map((imageUrl, index) => (
-                      <div key={index} className="aspect-square bg-gray-100 rounded-xl overflow-hidden group">
+                      <div key={index} className="image-container aspect-square bg-gray-50 rounded-lg overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
                         <img
                           src={imageUrl}
                           alt={`${item.title} - Image ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform cursor-pointer"
+                          className="item-image w-full h-full object-cover group-hover:scale-105 transition-transform cursor-pointer"
                           onClick={() => window.open(imageUrl, '_blank')}
                         />
                       </div>
@@ -269,46 +251,46 @@ const ItemDetail = () => {
               </Card>
             )}
 
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Tag className="h-5 w-5" />
+            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+              <CardHeader className="bg-gray-50 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2 text-gray-900">
+                  <Tag className="h-5 w-5 text-gray-600" />
                   Item Details
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <Tag className="w-4 h-4 text-gray-600" />
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <Tag className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Category</p>
-                        <p className="font-medium">{item.category?.name || 'Not specified'}</p>
+                        <p className="text-sm font-medium text-gray-600 meta-text">Category</p>
+                        <p className="font-semibold text-gray-900">{item.category?.name || 'Not specified'}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <MapPin className="w-4 h-4 text-gray-600" />
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <MapPin className="w-5 h-5 text-green-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Location</p>
-                        <p className="font-medium">{item.location?.name || 'Not specified'}</p>
+                        <p className="text-sm font-medium text-gray-600 meta-text">Location</p>
+                        <p className="font-semibold text-gray-900">{item.location?.name || 'Not specified'}</p>
                         {item.specific_location && (
-                          <p className="text-sm text-gray-500">{item.specific_location}</p>
+                          <p className="text-sm text-gray-600 meta-text">{item.specific_location}</p>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <Calendar className="w-4 h-4 text-gray-600" />
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-purple-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Date {item.item_type}</p>
-                        <p className="font-medium">
+                        <p className="text-sm font-medium text-gray-600 meta-text">Date {item.item_type}</p>
+                        <p className="font-semibold text-gray-900">
                           {new Date(item.date_lost_found).toLocaleDateString('en-US', {
                             weekday: 'long',
                             year: 'numeric',
@@ -317,43 +299,43 @@ const ItemDetail = () => {
                           })}
                         </p>
                         {item.time_lost_found && (
-                          <p className="text-sm text-gray-500">at {item.time_lost_found}</p>
+                          <p className="text-sm text-gray-600 meta-text">at {item.time_lost_found}</p>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <Eye className="w-4 h-4 text-gray-600" />
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <Eye className="w-5 h-5 text-orange-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Views</p>
-                        <p className="font-medium">{item.views_count || 0} views</p>
+                        <p className="text-sm font-medium text-gray-600 meta-text">Views</p>
+                        <p className="font-semibold text-gray-900">{item.views_count || 0} views</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <Clock className="w-4 h-4 text-gray-600" />
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <Clock className="w-5 h-5 text-indigo-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Posted</p>
-                        <p className="font-medium">
+                        <p className="text-sm font-medium text-gray-600 meta-text">Posted</p>
+                        <p className="font-semibold text-gray-900">
                           {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                         </p>
                       </div>
                     </div>
 
                     {item.item_type === 'lost' && (
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <Star className="w-4 h-4 text-gray-600" />
+                      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                        <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                          <Star className="w-5 h-5 text-yellow-600" />
                         </div>
                         <div>
-                          <p className="text-sm text-gray-600">Status</p>
-                          <p className="font-medium">
+                          <p className="text-sm font-medium text-gray-600 meta-text">Status</p>
+                          <p className="font-semibold text-gray-900">
                             {item.status === 'resolved' ? 'Found & Reunited! 🎉' : 'Still Missing'}
                           </p>
                         </div>
@@ -365,23 +347,23 @@ const ItemDetail = () => {
             </Card>
           </div>
 
-          <div className="space-y-6">
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl" id="contact">
+          <div className="space-y-6 sidebar">
+            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden" id="contact">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
                 <CardTitle className="flex items-center gap-2 text-blue-900">
                   <MessageCircle className="h-5 w-5 text-blue-600" />
                   Contact Owner
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold">
+              <CardContent className="space-y-6 p-6">
+                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
                     {item.profiles?.full_name?.charAt(0) || 'U'}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{item.profiles?.full_name || 'Anonymous'}</p>
+                    <p className="font-semibold text-gray-900 text-lg">{item.profiles?.full_name || 'Anonymous'}</p>
                     {item.profiles?.student_id && (
-                      <p className="text-sm text-gray-600">Student ID: {item.profiles.student_id}</p>
+                      <p className="text-sm text-gray-600 meta-text">Student ID: {item.profiles.student_id}</p>
                     )}
                   </div>
                 </div>
@@ -392,96 +374,134 @@ const ItemDetail = () => {
                       <MessageCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
                       <p className="text-sm text-blue-800 font-medium mb-3">
                         Sign in to contact the owner securely
-                      </p>
-                      <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
+                    </p>
+                    <Link to={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}>
                         <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg">
                           <User className="w-4 h-4 mr-2" />
                           Sign In to Message
-                        </Button>
-                      </Link>
+                      </Button>
+                    </Link>
                     </div>
                   </div>
                 )}
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {item.contact_phone && (
                     <Button 
                       variant="outline"
                       onClick={() => handlePhoneClick(item.contact_phone)}
-                      className="w-full"
+                      className="w-full action-button bg-green-50 hover:bg-green-100 text-green-700 border-green-200 hover:border-green-300 font-semibold py-3"
                       disabled={!user}
                     >
-                      <Phone className="w-4 h-4 mr-2" />
+                      <Phone className="w-5 h-5 mr-2" />
                       Call {item.contact_phone}
                     </Button>
                   )}
 
                   {/* Enhanced Messaging Button */}
                   {user && item.user_id !== user.id && (
-                    <div className="space-y-2">
-                      <ItemMessagingButton
-                        itemId={item.id}
-                        ownerId={item.user_id}
-                        variant="default"
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    <div className="space-y-3">
+                    <ItemMessagingButton
+                      itemId={item.id}
+                      ownerId={item.user_id}
+                      variant="default"
+                        className="contact-button w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-semibold py-3"
                         size="lg"
                       />
-                      <p className="text-xs text-center text-gray-500">
-                        💬 Send a secure message to the owner
-                      </p>
+                      <div className="text-center p-3 bg-blue-50 rounded-lg">
+                        <p className="text-sm text-blue-700 font-medium">
+                          💬 Send a secure message to the owner
+                        </p>
+                      </div>
                     </div>
                   )}
 
                   {!item.contact_phone && (!user || item.user_id === user.id) && (
-                    <div className="text-center py-4">
-                      <MessageCircle className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600">Use the messaging system to contact</p>
+                    <div className="text-center py-6 bg-gray-50 rounded-lg">
+                      <MessageCircle className="w-10 h-10 text-gray-400 mx-auto mb-3" />
+                      <p className="text-sm text-gray-600 font-medium">Use the messaging system to contact</p>
                     </div>
                   )}
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl">
-              <CardHeader>
-                <CardTitle>
+            <Card className="bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
+              <CardHeader className="bg-gray-50 border-b border-gray-100">
+                <CardTitle className="text-gray-900 text-lg">
                   {item.item_type === 'lost' ? '🔍 Found This Item?' : '👋 Is This Yours?'}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3 text-sm text-gray-600">
+              <CardContent className="p-6">
+                <div className="space-y-4 text-sm text-gray-700">
                   {item.item_type === 'lost' ? (
                     <>
-                      <p>• Contact the owner using the information above</p>
-                      <p>• Be prepared to describe the item to verify ownership</p>
-                      <p>• Arrange a safe meeting place on campus</p>
-                      <p>• Report spam or inappropriate content</p>
+                      <div className="flex items-start gap-3">
+                        <span className="text-blue-500 font-bold">•</span>
+                        <p className="font-medium">Contact the owner using the information above</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-blue-500 font-bold">•</span>
+                        <p className="font-medium">Be prepared to describe the item to verify ownership</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-blue-500 font-bold">•</span>
+                        <p className="font-medium">Arrange a safe meeting place on campus</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-blue-500 font-bold">•</span>
+                        <p className="font-medium">Report spam or inappropriate content</p>
+                      </div>
                     </>
                   ) : (
                     <>
-                      <p>• Contact the finder using the information above</p>
-                      <p>• Be ready to prove ownership of the item</p>
-                      <p>• Arrange to meet in a public campus location</p>
-                      <p>• Thank the finder for their honesty! 🙏</p>
+                      <div className="flex items-start gap-3">
+                        <span className="text-green-500 font-bold">•</span>
+                        <p className="font-medium">Contact the finder using the information above</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-green-500 font-bold">•</span>
+                        <p className="font-medium">Be ready to prove ownership of the item</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-green-500 font-bold">•</span>
+                        <p className="font-medium">Arrange to meet in a public campus location</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="text-green-500 font-bold">•</span>
+                        <p className="font-medium">Thank the finder for their honesty! 🙏</p>
+                      </div>
                     </>
                   )}
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-blue-50 border border-blue-200 shadow-lg rounded-2xl">
-              <CardHeader>
-                <CardTitle className="text-blue-800 flex items-center gap-2">
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 shadow-xl rounded-xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100 border-b border-blue-200">
+                <CardTitle className="text-blue-800 flex items-center gap-2 text-lg">
                   <BadgeIcon className="h-5 w-5" />
                   Safety First
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm text-blue-700">
-                  <p>• Always meet in public campus areas</p>
-                  <p>• Bring a friend when meeting strangers</p>
-                  <p>• Verify identity before sharing personal info</p>
-                  <p>• Report suspicious behavior to campus security</p>
+              <CardContent className="p-6">
+                <div className="space-y-4 text-sm text-blue-800">
+                  <div className="flex items-start gap-3">
+                    <span className="text-blue-600 font-bold">•</span>
+                    <p className="font-semibold">Always meet in public campus areas</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-blue-600 font-bold">•</span>
+                    <p className="font-semibold">Bring a friend when meeting strangers</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-blue-600 font-bold">•</span>
+                    <p className="font-semibold">Verify identity before sharing personal info</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-blue-600 font-bold">•</span>
+                    <p className="font-semibold">Report suspicious behavior to campus security</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>

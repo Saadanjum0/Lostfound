@@ -195,15 +195,15 @@ const DesktopBrowse = () => {
   };
 
   const ItemCard = ({ item, index }: { item: any, index: number }) => (
-    <Card className="bg-white border border-gray-200 shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative z-10 overflow-hidden">
-      <CardContent className="p-0 bg-white">
+    <Card className="bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-1 relative z-10 overflow-hidden rounded-xl">
+      <CardContent className="p-0 bg-white flex flex-col">
         {/* Enhanced Image Display */}
-        <div className="relative overflow-hidden h-52 bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="relative overflow-hidden h-48 bg-gray-50 flex items-center justify-center">
           {item.images && item.images.length > 0 ? (
             <img 
               src={item.images[0]} 
               alt={item.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={(e) => {
                 // Fallback if image fails to load
                 e.currentTarget.style.display = 'none';
@@ -213,59 +213,60 @@ const DesktopBrowse = () => {
           ) : null}
           
           {/* Fallback icon when no image */}
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200" style={{display: item.images && item.images.length > 0 ? 'none' : 'flex'}}>
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-50" style={{display: item.images && item.images.length > 0 ? 'none' : 'flex'}}>
             {item.item_type === 'lost' ? (
-              <Search className="text-amber-500 w-12 h-12" />
+              <Search className="text-gray-400 w-16 h-16" />
             ) : (
-              <Eye className="text-green-500 w-12 h-12" />
+              <Eye className="text-gray-400 w-16 h-16" />
             )}
           </div>
           
+          {/* Status Badge - Improved */}
           <Badge 
-            className={`absolute top-3 right-3 font-semibold backdrop-blur-sm border-0 shadow-lg ${
+            className={`absolute top-3 right-3 font-medium border-0 shadow-md inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm ${
               item.item_type === 'lost' 
-                ? 'bg-amber-500 hover:bg-amber-600 text-white' 
-                : 'bg-green-500 hover:bg-green-600 text-white'
+                ? 'bg-red-100 text-red-800 status-lost' 
+                : 'bg-green-100 text-green-800 status-found'
             }`}
           >
-            {item.item_type === 'lost' ? '🔍 Lost' : '👁️ Found'}
+            {item.item_type === 'lost' ? '🔍 Lost' : '✅ Found'}
           </Badge>
 
           {/* Reward badge if offered */}
           {item.reward_offered && (
-            <Badge className="absolute top-3 left-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold backdrop-blur-sm border-0 shadow-lg">
+            <Badge className="absolute top-3 left-3 bg-yellow-100 text-yellow-800 font-medium border-0 shadow-md px-3 py-1 rounded-full text-sm">
               💰 ${item.reward_offered}
             </Badge>
           )}
         </div>
         
-        <div className="p-6 bg-white">
-          <div className="flex justify-between items-start mb-3">
-            <h3 className="font-bold group-hover:text-amber-600 transition-colors text-gray-900 text-xl line-clamp-2 flex-1">
+        <div className="p-6 bg-white flex flex-col gap-4 flex-1">
+          <div className="flex justify-between items-start">
+            <h3 className="font-bold text-gray-900 text-lg line-clamp-2 flex-1 item-title group-hover:text-blue-700 transition-colors">
               {item.title}
             </h3>
-            <Badge variant="outline" className="text-xs border-gray-300 text-gray-600 ml-2 flex-shrink-0 bg-gray-50">
+            <Badge variant="outline" className="text-xs border-gray-200 text-gray-600 ml-3 flex-shrink-0 bg-gray-50 px-2 py-1">
               {item.category?.name || 'Other'}
             </Badge>
           </div>
           
-          <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+          <p className="text-gray-700 line-clamp-2 leading-relaxed item-description font-medium">
             {item.description}
           </p>
           
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+          <div className="flex items-center justify-between text-sm text-gray-600 meta-text">
             <div className="flex items-center">
-              <MapPin className="h-4 w-4 mr-2 text-gray-400" />
-              <span className="truncate">{item.location?.name || 'Unknown'}</span>
+              <MapPin className="h-4 w-4 mr-2 text-gray-500" />
+              <span className="truncate font-medium">{item.location?.name || 'Unknown'}</span>
             </div>
             <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-              <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
+              <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+              <span className="font-medium">{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
             </div>
           </div>
           
-          <div className="flex gap-2">
-            <Button asChild className="flex-1 bg-gray-900 hover:bg-gray-800 text-white border-0">
+          <div className="flex gap-3 mt-auto">
+            <Button asChild className="flex-1 bg-gray-900 hover:bg-gray-800 text-white border-0 action-button font-semibold">
               <Link to={`/items/${item.id}`}>
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
@@ -273,8 +274,7 @@ const DesktopBrowse = () => {
             </Button>
             <Button 
               asChild 
-              variant="outline" 
-              className="bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 hover:border-blue-300"
+              className="contact-button px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5"
             >
               <Link to={`/items/${item.id}#contact`}>
                 <MessageCircle className="h-4 w-4 mr-2" />
@@ -499,9 +499,9 @@ const DesktopBrowse = () => {
           </div>
         )}
 
-        {/* Items Grid */}
+        {/* Items Grid - Improved Layout */}
         {!isLoading && filteredItems.length > 0 && (
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="items-grid grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 px-4">
             {filteredItems.map((item, index) => (
               <ItemCard key={item.id} item={item} index={index} />
             ))}

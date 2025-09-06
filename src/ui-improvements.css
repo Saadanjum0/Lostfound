@@ -1,0 +1,160 @@
+/* UI Improvements for Lost & Found Platform */
+
+/* 1. Color Contrast & Accessibility */
+.description-text {
+  color: #2d3748 !important;
+  font-weight: 500 !important;
+}
+
+.contact-button {
+  background-color: #4299e1 !important;
+  color: #ffffff !important;
+  border: 2px solid transparent !important;
+}
+
+.contact-button:hover {
+  background-color: #3182ce !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 2. Layout & Spacing */
+.item-card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  padding: 1.5rem !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.items-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+  gap: 2rem !important;
+  padding: 2rem !important;
+}
+
+/* 3. Typography Hierarchy */
+.item-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #1a202c !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.item-description {
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  color: #4a5568 !important;
+}
+
+.meta-text {
+  font-size: 0.875rem !important;
+  color: #718096 !important;
+}
+
+/* 4. Interactive Elements */
+.item-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.action-button {
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.share-button {
+  background-color: #e2e8f0 !important;
+  color: #4a5568 !important;
+}
+
+.share-button:hover {
+  background-color: #cbd5e0 !important;
+  color: #2d3748 !important;
+}
+
+/* 5. Image Container */
+.image-container {
+  width: 100% !important;
+  height: 200px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background-color: #f7fafc !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.item-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.image-placeholder {
+  color: #a0aec0 !important;
+  font-size: 3rem !important;
+}
+
+/* 6. Status Badges */
+.status-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.status-lost {
+  background-color: #fed7d7 !important;
+  color: #c53030 !important;
+}
+
+.status-found {
+  background-color: #c6f6d5 !important;
+  color: #2f855a !important;
+}
+
+/* 7. Responsive Design */
+@media (max-width: 768px) {
+  .items-grid {
+    grid-template-columns: 1fr !important;
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  
+  .item-card {
+    padding: 1rem !important;
+  }
+  
+  .sidebar {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 2rem !important;
+  }
+}
+
+/* 8. Dark Mode Support */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a202c;
+    --bg-secondary: #2d3748;
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+  }
+}
